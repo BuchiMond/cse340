@@ -1,32 +1,476 @@
+:root {
+    --color-bg: #F5F3EF;
+    --color-surface: #FFFFFF;
+    --color-primary: #14313D;
+    --color-primary-light: #1E4257;
+    --color-primary-dark: #0D2129;
+    --color-accent: #C98A3B;
+    --color-accent-light: #E3B15B;
+    --color-text: #1F2A2E;
+    --color-border: #E3DFD6;
+
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 55%, var(--color-primary) 100%);
+    --gradient-accent: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 50%, var(--color-accent) 100%);
+
+    --shadow-sm: 0 2px 8px rgba(20, 49, 61, 0.10);
+    --shadow-md: 0 10px 28px rgba(20, 49, 61, 0.16);
+    --shadow-lg: 0 20px 44px rgba(20, 49, 61, 0.22);
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scrollbar-color: var(--color-accent) var(--color-bg);
+    scrollbar-width: thin;
+}
+
 html,
 body {
-    background-color: lightblue;
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    height: 100%;
 }
 
 body {
-    nav {
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
 
-        li {
-            display: inline;
-            margin-right: 15px;
-        }
+/* Subtle full-page dot-grid texture — kept extremely low opacity so it
+   never meaningfully changes contrast for text sitting on --color-bg */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(20, 49, 61, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+}
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+header,
+main,
+.site-footer {
+    position: relative;
+    z-index: 1;
+}
 
-            &:hover,
-            &:focus {
-                color: #002d5c;
-            }
-        }
+main {
+    flex: 1;
+}
+
+::selection {
+    background: var(--color-primary);
+    color: #FFFFFF;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-accent);
+    border-radius: 8px;
+    border: 3px solid var(--color-bg);
+}
+
+/* ============================================
+   Header / Navigation
+   ============================================ */
+header {
+    background: var(--gradient-primary);
+    background-size: 220% 220%;
+    animation: gradientDrift 14s ease infinite;
+    border-bottom: 4px solid transparent;
+    border-image: var(--gradient-accent) 1;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+@keyframes gradientDrift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.site-nav {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.site-brand {
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.site-brand::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gradient-accent);
+    display: inline-block;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    position: relative;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    padding-bottom: 6px;
+    transition: opacity 0.25s ease;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    height: 2px;
+    background: var(--gradient-accent);
+    transition: left 0.3s var(--ease-out), right 0.3s var(--ease-out);
+}
+
+nav a:hover::after,
+nav a:focus-visible::after {
+    left: 0;
+    right: 0;
+}
+
+nav a:hover {
+    opacity: 0.9;
+}
+
+nav a:focus {
+    outline: none;
+}
+
+nav a:focus-visible {
+    outline: 3px solid var(--color-accent-light);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+/* ============================================
+   Page layout
+   ============================================ */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 72px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container>* {
+    animation: fadeInUp 0.7s var(--ease-out) both;
+}
+
+.container>*:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.container>*:nth-child(2) {
+    animation-delay: 0.10s;
+}
+
+.container>*:nth-child(3) {
+    animation-delay: 0.18s;
+}
+
+.container>*:nth-child(4) {
+    animation-delay: 0.26s;
+}
+
+h1,
+h2 {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    color: var(--color-primary);
+    margin: 0 0 20px;
+    line-height: 1.25;
+}
+
+/* Home page: h1 becomes a small label above the real hero headline (h2) */
+h1.eyebrow {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+h1.eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--gradient-accent);
+    display: inline-block;
+}
+
+/* Projects page: h2 becomes a smaller section heading beneath the h1 title */
+h2.section-heading {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+}
+
+.container>p {
+    font-size: 1.1rem;
+    max-width: 62ch;
+    margin: 0 0 32px;
+}
+
+.main-logo {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-top: 8px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+
+.main-logo:hover {
+    transform: scale(1.015);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   Card component base
+   (shared visual language for organizations,
+   projects, and categories)
+   ============================================ */
+.org-list li,
+.project-list li,
+.category-list li {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), border-color 0.35s ease;
+}
+
+.org-list li::before,
+.project-list li::before,
+.category-list li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-accent);
+}
+
+.org-list li:hover,
+.project-list li:hover,
+.category-list li:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-accent-light);
+}
+
+/* ============================================
+   Organizations page — card grid
+   ============================================ */
+.org-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.org-list li {
+    padding: 28px 20px 24px;
+    text-align: center;
+}
+
+.org-list img {
+    display: block;
+    margin: 0 auto 16px;
+    height: 64px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.35s var(--ease-out);
+}
+
+.org-list li:hover img {
+    transform: scale(1.05);
+}
+
+.org-list strong {
+    display: block;
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+/* ============================================
+   Projects page — card list
+   ============================================ */
+.project-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-list li {
+    padding: 20px 24px 20px 28px;
+    font-size: 1.05rem;
+}
+
+.project-list li::before {
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: 0;
+    width: 4px;
+    height: auto;
+}
+
+/* ============================================
+   Categories page — card grid
+   ============================================ */
+.category-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.category-list li {
+    padding: 28px 20px 24px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.site-footer {
+    border-top: none;
+    background: linear-gradient(var(--color-border), transparent) top / 100% 1px no-repeat;
+    padding: 24px 24px 28px;
+    text-align: center;
+}
+
+.site-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 600px) {
+    .site-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+
+/* ============================================
+   Respect reduced-motion preference (WCAG 2.3.3)
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
     }
 }
