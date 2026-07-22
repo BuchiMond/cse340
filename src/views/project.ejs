@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+    <main class="container">
+        <% if (projectDetails) { %>
+            <h2><%= projectDetails.title %></h2>
+            <p>
+                Hosted by
+                <a href="/organization/<%= projectDetails.organization_id %>"><%= projectDetails.organization_name %></a>
+            </p>
+            <p><%= projectDetails.description %></p>
+            <p>Location: <%= projectDetails.location %></p>
+            <p>Date: <%= new Date(projectDetails.date).toLocaleDateString() %></p>
+
+            <% if (categories && categories.length > 0) { %>
+                <ul class="category-tags">
+                    <% categories.forEach(category => { %>
+                        <li>
+                            <a href="/category/<%= category.category_id %>"><%= category.name %></a>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        <% } else { %>
+            <h2>Service Project Not Found</h2>
+            <p>We couldn't find the service project you're looking for.</p>
+        <% } %>
+    </main>
+
+    <%- include('partials/footer') %>
