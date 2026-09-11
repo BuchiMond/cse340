@@ -1,10 +1,10 @@
 // Import any needed model functions
-import { getUpcomingProjects, getProjectDetails } from '../models/projects.js';
+import { getAllProjects, getProjectDetails } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 
 // Define any controller functions
 const showProjectsPage = async (req, res) => {
-    const projects = await getUpcomingProjects();
+    const projects = await getAllProjects();
     const title = 'Service Projects';
 
     res.render('projects', { title, projects });

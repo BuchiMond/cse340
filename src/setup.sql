@@ -12,7 +12,7 @@ VALUES
     ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
     ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
 
-    -- Service project categories
+-- Service project categories
 CREATE TABLE category (
     category_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
@@ -23,7 +23,8 @@ VALUES
     ('Environmental'),
     ('Educational'),
     ('Community Service'),
-    ('Health and Wellness');
+    ('Health and Wellness'),
+    ('Youth Development');
 
 -- Service projects, each belonging to one partner organization
 CREATE TABLE project (
@@ -37,9 +38,26 @@ CREATE TABLE project (
 
 INSERT INTO project (organization_id, title, description, location, date)
 VALUES
+    -- BrightFuture Builders (5 projects)
     ((SELECT organization_id FROM organization WHERE name = 'BrightFuture Builders'), 'Park Cleanup', 'Join us to clean up local parks and make them beautiful!', 'Riverside Park', '2026-08-15'),
+    ((SELECT organization_id FROM organization WHERE name = 'BrightFuture Builders'), 'Playground Build', 'Help construct a new playground for neighborhood kids.', 'Maple Street Park', '2026-10-10'),
+    ((SELECT organization_id FROM organization WHERE name = 'BrightFuture Builders'), 'Road Repair Initiative', 'Assist with patching and repairing damaged residential roads.', 'Elmwood District', '2026-10-24'),
+    ((SELECT organization_id FROM organization WHERE name = 'BrightFuture Builders'), 'Community Center Renovation', 'Volunteer to help paint and repair the local community center.', 'Downtown Community Center', '2026-11-07'),
+    ((SELECT organization_id FROM organization WHERE name = 'BrightFuture Builders'), 'Sidewalk Accessibility Project', 'Build wheelchair ramps and repair uneven sidewalks.', 'Oak Avenue', '2026-11-21'),
+
+    -- GreenHarvest Growers (5 projects)
     ((SELECT organization_id FROM organization WHERE name = 'GreenHarvest Growers'), 'Food Drive', 'Help collect and distribute food to those in need.', 'Community Center', '2026-08-22'),
-    ((SELECT organization_id FROM organization WHERE name = 'UnityServe Volunteers'), 'Community Tutoring', 'Volunteer to tutor students in various subjects.', 'Public Library', '2026-09-05');
+    ((SELECT organization_id FROM organization WHERE name = 'GreenHarvest Growers'), 'Community Garden Planting', 'Plant vegetables and herbs in the shared neighborhood garden.', 'Sunnyside Community Garden', '2026-10-03'),
+    ((SELECT organization_id FROM organization WHERE name = 'GreenHarvest Growers'), 'Farmers Market Setup', 'Help set up and run a weekend farmers market for local growers.', 'Town Square', '2026-10-17'),
+    ((SELECT organization_id FROM organization WHERE name = 'GreenHarvest Growers'), 'Composting Workshop', 'Teach residents how to compost food waste at home.', 'GreenHarvest Education Center', '2026-10-31'),
+    ((SELECT organization_id FROM organization WHERE name = 'GreenHarvest Growers'), 'Seed Bank Drive', 'Collect and organize donated seeds for next season''s planting.', 'GreenHarvest Warehouse', '2026-11-14'),
+
+    -- UnityServe Volunteers (5 projects)
+    ((SELECT organization_id FROM organization WHERE name = 'UnityServe Volunteers'), 'Community Tutoring', 'Volunteer to tutor students in various subjects.', 'Public Library', '2026-09-05'),
+    ((SELECT organization_id FROM organization WHERE name = 'UnityServe Volunteers'), 'Senior Center Visit', 'Spend time with residents at the local senior center.', 'Golden Years Senior Center', '2026-10-05'),
+    ((SELECT organization_id FROM organization WHERE name = 'UnityServe Volunteers'), 'Clothing Donation Drive', 'Sort and distribute donated clothing to families in need.', 'UnityServe Office', '2026-10-19'),
+    ((SELECT organization_id FROM organization WHERE name = 'UnityServe Volunteers'), 'Blood Donation Drive', 'Help organize and staff a community blood drive.', 'Memorial Hospital', '2026-11-02'),
+    ((SELECT organization_id FROM organization WHERE name = 'UnityServe Volunteers'), 'Neighborhood Cleanup', 'Pick up litter and beautify shared neighborhood spaces.', 'Willow Creek Neighborhood', '2026-11-16');
 
 -- Junction table associating projects with categories (many-to-many)
 CREATE TABLE project_category (
@@ -51,6 +69,22 @@ CREATE TABLE project_category (
 INSERT INTO project_category (project_id, category_id)
 VALUES
     ((SELECT project_id FROM project WHERE title = 'Park Cleanup'), (SELECT category_id FROM category WHERE name = 'Environmental')),
+    ((SELECT project_id FROM project WHERE title = 'Playground Build'), (SELECT category_id FROM category WHERE name = 'Youth Development')),
+    ((SELECT project_id FROM project WHERE title = 'Road Repair Initiative'), (SELECT category_id FROM category WHERE name = 'Community Service')),
+    ((SELECT project_id FROM project WHERE title = 'Community Center Renovation'), (SELECT category_id FROM category WHERE name = 'Community Service')),
+    ((SELECT project_id FROM project WHERE title = 'Sidewalk Accessibility Project'), (SELECT category_id FROM category WHERE name = 'Health and Wellness')),
+
     ((SELECT project_id FROM project WHERE title = 'Food Drive'), (SELECT category_id FROM category WHERE name = 'Community Service')),
     ((SELECT project_id FROM project WHERE title = 'Food Drive'), (SELECT category_id FROM category WHERE name = 'Health and Wellness')),
-    ((SELECT project_id FROM project WHERE title = 'Community Tutoring'), (SELECT category_id FROM category WHERE name = 'Educational'));
+    ((SELECT project_id FROM project WHERE title = 'Community Garden Planting'), (SELECT category_id FROM category WHERE name = 'Environmental')),
+    ((SELECT project_id FROM project WHERE title = 'Farmers Market Setup'), (SELECT category_id FROM category WHERE name = 'Environmental')),
+    ((SELECT project_id FROM project WHERE title = 'Composting Workshop'), (SELECT category_id FROM category WHERE name = 'Environmental')),
+    ((SELECT project_id FROM project WHERE title = 'Seed Bank Drive'), (SELECT category_id FROM category WHERE name = 'Environmental')),
+    ((SELECT project_id FROM project WHERE title = 'Seed Bank Drive'), (SELECT category_id FROM category WHERE name = 'Educational')),
+
+    ((SELECT project_id FROM project WHERE title = 'Community Tutoring'), (SELECT category_id FROM category WHERE name = 'Educational')),
+    ((SELECT project_id FROM project WHERE title = 'Senior Center Visit'), (SELECT category_id FROM category WHERE name = 'Community Service')),
+    ((SELECT project_id FROM project WHERE title = 'Clothing Donation Drive'), (SELECT category_id FROM category WHERE name = 'Community Service')),
+    ((SELECT project_id FROM project WHERE title = 'Blood Donation Drive'), (SELECT category_id FROM category WHERE name = 'Health and Wellness')),
+    ((SELECT project_id FROM project WHERE title = 'Neighborhood Cleanup'), (SELECT category_id FROM category WHERE name = 'Environmental')),
+    ((SELECT project_id FROM project WHERE title = 'Neighborhood Cleanup'), (SELECT category_id FROM category WHERE name = 'Youth Development'));
