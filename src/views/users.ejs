@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+    <% if (users && users.length > 0) { %>
+        <div class="table-wrap">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email (Username)</th>
+                        <th scope="col">Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(account => { %>
+                        <tr>
+                            <td><%= account.name %></td>
+                            <td><%= account.email %></td>
+                            <td><span class="role-badge <%= account.role_name %>"><%= account.role_name %></span></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <p>There are no registered users yet.</p>
+    <% } %>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+</main>
+<%- include('partials/footer') %>

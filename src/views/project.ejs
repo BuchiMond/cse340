@@ -31,8 +31,10 @@
                 </ul>
                 <% } %>
 
-                    <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
-                    <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
+                    <% if (user && user.role_name === 'admin') { %>
+                        <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
+                        <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
+                    <% } %>
                     <% } else { %>
                         <h2>Service Project Not Found</h2>
                         <p>We couldn't find the service project you're looking for.</p>
