@@ -826,3 +826,25 @@ main form:not(:has(.form-group)) {
         scroll-behavior: auto !important;
     }
 }
+
+/* Admin edit links */
+.edit-link {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: rgba(23, 65, 90, 0.08);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.edit-link:hover {
+    background: rgba(227, 155, 45, 0.25);
+    color: var(--color-primary-dark);
+}
+
+.category-list li .edit-link {
+    margin: 0 0 20px;
+}
