@@ -129,7 +129,7 @@ header {
 }
 
 .site-nav {
-    max-width: var(--page-width);
+    max-width: 1200px;
     margin: 0 auto;
     padding: 14px 24px;
     display: flex;
@@ -180,7 +180,7 @@ nav a {
     color: var(--color-text);
     font-weight: 600;
     font-size: 0.92rem;
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-radius: 999px;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -468,9 +468,9 @@ main>img:not(.main-logo) {
     background: var(--gradient-accent);
 }
 
-.category-list li a {
+.category-list li a:not(.edit-link) {
     display: block;
-    padding: 30px 20px 26px;
+    padding: 30px 20px 18px;
     font-size: 1.05rem;
     color: var(--color-primary);
     text-decoration: none;
@@ -830,8 +830,8 @@ main form:not(:has(.form-group)) {
 /* Admin edit links */
 .edit-link {
     display: inline-block;
-    padding: 0.4rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--color-primary);
     background: rgba(23, 65, 90, 0.08);
@@ -845,6 +845,11 @@ main form:not(:has(.form-group)) {
     color: var(--color-primary-dark);
 }
 
-.category-list li .edit-link {
-    margin: 0 0 20px;
+.category-list li a.edit-link {
+    display: inline-block;
+    padding: 3px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0 0 18px;
+    line-height: 1.5;
 }
