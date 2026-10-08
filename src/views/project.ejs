@@ -31,6 +31,19 @@
                 </ul>
                 <% } %>
 
+                    <% if (user) { %>
+                        <% if (isVolunteering) { %>
+                            <p class="volunteer-status">You are volunteering for this project.</p>
+                            <form action="/project/<%= projectDetails.project_id %>/unvolunteer" method="POST">
+                                <button type="submit">Remove Me as a Volunteer</button>
+                            </form>
+                        <% } else { %>
+                            <form action="/project/<%= projectDetails.project_id %>/volunteer" method="POST">
+                                <button type="submit">Volunteer for This Project</button>
+                            </form>
+                        <% } %>
+                    <% } %>
+
                     <% if (user && user.role_name === 'admin') { %>
                         <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
                         <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
